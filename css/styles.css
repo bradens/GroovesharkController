@@ -1,0 +1,208 @@
+.button:hover {
+	color: #CFDCE6;
+	-webkit-box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
+	box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
+}
+.buttonsWrapper {
+	display: inline;
+	padding: 3px;
+	width: auto;
+	height: auto;
+}
+.button {
+	margin: 0px 2px 2px 2px;
+	float:left;
+	text-align: center;
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(1, rgb(112,112,112)),
+	    color-stop(0.51, rgb(52,51,61))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(112,112,112) 100%,
+	    rgb(52,51,61) 51%
+	);
+	padding: 4px;
+	width:auto;
+	height:auto;
+	-webkit-border-radius: 3px;
+	border: #999 thin solid;
+	cursor: pointer;
+	display:inline;
+}
+.playlistartist {
+	color: #CFDCE6;
+}
+.songCell:hover {
+	color: #EEE;
+	-webkit-box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
+	box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
+}
+.songCell {
+	cursor: pointer;
+	-webkit-border-radius: 3px;
+	border: #999 thin solid;
+	padding: 3px;
+	background-color: #999;
+	width:90px;
+	height:100px;
+}
+.songCellBackgroundImagePlay {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.songCellTextWrap {
+	/*background-image: url('../images/play.png');*/
+	background-repeat: no-repeat;
+	background-width: 100%;
+	background-height: 100%;
+	background-position: center;
+	height:100%;
+}
+.songCellText {
+	background-color: rgba(0,0,0,.4);
+	max-height: 120px;
+	height: 100%;
+	width:100%;
+	text-align: center;
+	/*width:87px;*/
+	overflow: hidden;
+}
+.searchBox:focus {
+	-webkit-box-shadow: 0 0 2px 2px rgba(98,122,173, 1);
+}
+.nowPlaying {
+	margin-top:10px;
+}
+.searchBox {
+	display: inline-block;
+	margin: 0px 2px 0px 2px;
+	white-space: nowrap;
+	overflow:hidden;
+	float:left;
+	width: 230px;
+	-webkit-box-shadow: 0 0 1.5px 1.5px rgba(98,122,173, 1);
+	background-color: #1A2022;
+	padding: 4px;
+	-webkit-border-radius: 3px;
+	border: #999 thin solid;
+	color: #EBEBEB;
+	text-shadow: 0.1em 0.1em 0.08em #333;
+	font-size: 14px;
+}
+.imgBtnsWrap:hover {
+	color: #CFDCE6;
+	-webkit-box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
+	box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
+}
+.imgBtnsWrap {
+	margin: 0px 2px 2px 2px;
+	float:left;
+	text-align: center;
+	background-image: -webkit-gradient(
+	    linear,
+	    left bottom,
+	    left top,
+	    color-stop(1, rgb(112,112,112)),
+	    color-stop(0.51, rgb(52,51,61))
+	);
+	background-image: -moz-linear-gradient(
+	    center bottom,
+	    rgb(112,112,112) 100%,
+	    rgb(52,51,61) 51%
+	);
+	width:auto;
+	height:auto;
+	-webkit-border-radius: 3px;
+	border: #999 thin solid;
+	cursor: pointer;
+	display:inline;
+}
+.imgBtns {
+	padding: 0px;
+	height: 24px;
+	width: 24px;
+	margin-top: 
+	display:inline-block;
+	background-repeat: no-repeat;
+	background-size: 24px;
+	background-position: center;
+}
+.shuffleOff{
+	background-image: url('../images/shuffleOff.png');
+}
+.shuffleOn{
+	background-image: url('../images/shuffleOn.png');
+}
+.repeatOff{
+	background-image: url('../images/repeatOff.png');
+}
+.repeatOne{
+	background-image: url('../images/repeatOne.png');
+}
+.repeatAll{
+	background-image: url('../images/repeatAll.png');
+}
+.trashButton {
+	background-image: url('../images/trashIcon.png');
+	background-repeat: no-repeat;
+	background-position:left;
+	background-color:#545454;
+	display: inline-block;
+	width: 10px;
+	height:15px;
+	margin-right: 0px;
+}
+body {
+	overflow-x: hidden;
+	width:530px;
+	height:400px;
+	background-color: #1A2022;
+	font-family: arial, sans-serif;
+	color: #EBEBEB;
+	text-shadow: 0.1em 0.1em 0.05em #333;
+	font-size: 14px;
+}
+.songResultsRow {
+	cursor: pointer;
+}
+.songListWaiting {
+	background-image: url("../images/songResultList.gif");
+}
+.songResultListWrap {
+	width: 100%;
+	background-position: center;
+	background-repeat: no-repeat;
+	-webkit-user-select: none;
+	display:none;
+}
+.songResultsRowOdd {
+	background-color: #333;
+}
+.songResultsTable {
+	font-size: 12px;
+}
+.songResultsRow:hover {
+	background-color:#666;
+}
+.songResultsRowHeader {
+	background-color:#666;
+}
+.tempAddToPlaylistTd {
+	border: #999 solid 1px;
+	-webkit-border-radius: 2px 2px;
+	min-width: 15px;
+	min-height: 15px;
+	background-image: url("../images/addToNowPlaying.png");
+	background-size: 15px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+.tempAddToPlaylistTd:hover {
+	border: #FFF solid 1px;
+	-webkit-border-radius: 2px 2px;
+}

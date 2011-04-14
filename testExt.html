@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<title>Grooveshark Controller</title>
+	<head>
+		<script type='text/javascript' src="js/jquery-1.5.1.min.js"></script>
+	 	<script type='text/javascript' src="js/jquery-ui-1.8.11.custom.min.js"></script>
+		<link href="css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		<link href="css/vader/jquery-ui-1.8.11.custom.css" type="text/css"	rel="stylesheet"/>	
+		<link rel="stylesheet" href="css/styles.css" />
+		<script type="text/javascript" src="controllerCore.js"></script>
+		<script type="text/javascript" src="extPlayer.js"></script>
+	</head>
+	<body onload="createNowPlaying();">
+		<div class="controlWrapper">
+			<div class="buttonsWrapper">
+				<div class="playButton button" onclick="go('play');"><span>Play/Pause</span></div>
+				<div class="backButton button" onclick="go('back');"><span>Back</span></div>
+				<div class="nextButton button" onclick="go('next');"><span>Next</span></div>
+				<div class="imgBtnsWrap"><div id='shuffleButton' class='shuffleOff imgBtns' onclick="toggleShuffle();"></div></div>
+				<div class="imgBtnsWrap"><div id='repeatButton' class='repeatOff imgBtns' onclick="cycleRepeat();"></div></div>
+			</div>
+			<div id='searchBoxWrap'>
+				<input class="searchBox" onfocus="onFocusSearchBox(document.getElementById('search_input_box'));" onkeyup="searchKeyUp(event)" id='search_input_box' value="Type to Search GrooveShark...">
+				</input> 
+			</div>
+			<div id='searchBtn' onclick="runSearch();" class="button searchButton">
+				<span>Go</span>
+			</div>
+			<div id='trashBtn' onclick="clearSongs();" class="button trashButton">
+			</div>
+			<div class="nowPlaying" id='nowPlayingTblWrapper'>
+				<table class="tblSongs" id='nowPlayingTbl'>
+				</table>
+			</div>
+			<div class="songResultListWrap" id="songResultListWrap" title="Song search results.">
+			</div>
+		</div>
+	</body>
+</html>
