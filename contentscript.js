@@ -2,22 +2,20 @@ var _isPageListener = false;
 var sendResponseNotFull = false;
 var _inSearch = false;
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-	if (request.action == 'getQueue') 
+	if (request.action == GSDefines.GETQUEUE_REQ) 
 	{
 		var Songs = [];
 		var tempSong = { name: null, artist: null, imgHref: null, id: null };
-		var queueList = document.getElementsByClassName('queue-item');
 		
-		// using jQuery
-		var queueSongs = $("li.queue-item");
-		queueSongs.sort("rel", "asc");
+		var queueSongs = $("li." + GSDefines.QUEUE_ITEM_CLASS);
+		queueSongs.sort(GSDefines.REL_ATTR, "asc");
 		for (var i = 0;i < queueSongs.length;i++)
 		{
-			var queueItem = queueSongs.eq(i).find(".queueSong");
+			var queueItem = queueSongs.eq(i).find("." + GSDefines.QUEUESONG_CLASS);
 			tempSong.id = queueItem.attr("id");
-			tempSong.artist = queueItem.children("a.queueSong_artist.artist").attr("title");
+			tempSong.artist = queueItem.children("a." + GSDefines.QUEUESONG_ARTIST_CLASS + "." + GSDefines.ARTIST_CLASS).attr("title");
 			tempSong.imgHref = queueItem.find("img").attr("src");
-			tempSong.name = queueItem.children("a.queueSong_name.song").attr("title");
+			tempSong.name = queueItem.children("a." + GSDefines.QUEUESONG_NAME_CLASS + "." + GSDefines.SONG_CLASS).attr("title");
 			Songs.push(tempSong);
 			tempSong = {
 				name: null,
@@ -31,17 +29,16 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		});
 		delete Songs;
 	}
-	else if (request.action == 'getControlState')
+	else if (request.action == GSDefines.GET_CONTROL_STATE_REQ)
 	{
 		var shuffleButtonClass;
 		var repeatButtonClass;
 		try {
-			shuffleButtonClass = document.getElementById('player_shuffle') ? document.getElementById('player_shuffle').className : "";
-			repeatButtonClass = document.getElementById('player_loop') ? document.getElementById('player_loop').className : "";
+			document.getElementById(GSDefines.PLAYER_SHUFFLE_CLASS) ? shuffleButtonClass = document.getElementById(GSDefines.PLAYER_SHUFFLE_CLASS).className : "";
+			document.getElementById(GSDefines.PLAYER_LOOP_CLASS) ? repeatButtonClass = document.getElementById(GSDefines.PLAYER_LOOP_CLASS).className : "";
 		}
 		catch (e)
 		{
-			console.log('OFUK');
 			sendResponse({
 				shuffleClass: shuffleButtonClass,
 				repeatClass: repeatButtonClass
@@ -52,8 +49,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			repeatClass: repeatButtonClass
 		});
 	}
-	else if (request.action == 'playSong')
+	else if (request.action == GSDefines.PLAYSONG_REQ)
 	{
+		// DEFINING CURRENT PLACE....
+		
 		// search the queue for our element
 		var songItem = document.getElementById(request.songId);
 		var songHref = songItem.children[1].children[2];
@@ -158,7 +157,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 function startSearchInput(request)
 {
 	_inSearch = true;
-	setTimeout(function() { _inSearch ? sendResponseNotFull = true : sendResponseNotFull = false; }, 10000);
+	setTimeout(function() { _inSearch ? sendResponseNotFull = true : sendResponseNotFull = false; }, 5000);
 	var inputWrap = document.getElementById('searchBar_input');
 	var inputBox = null;
 	var inputSubmit = document.getElementById('searchButton');
@@ -199,10 +198,10 @@ function startQueryResponse()
 	var page = document.getElementById('page');
 	if (page)
 	{
-		var grid = document.getElementById('grid');
+		var grid = $("#grid");
 		if (grid)
 		{
-			var elems = getElementsByClassName('ui-widget-content', grid);
+			var elems = grid.find(".ui-widget-content");
 			console.log('Currently ' + elems.length + " in the list.");	
 			if ((elems.length >= 50 && elems[0].getAttribute('title') !== undefined)|| sendResponseNotFull) {
 				removeQueryListener();
@@ -211,9 +210,9 @@ function startQueryResponse()
 				for (var i = 0;i < 50;i++)
 				{
 					tempSongStruct = {song: null, artist: null, rowNum: i};
-					var tmpVal = getElementsByClassName('songLink', elems[i])[0];
+					var tmpVal = $(elems[i]).find(".songLink")[0];
 					tempSongStruct.song = tmpVal ? tmpVal.getAttribute('title') : ""; 
-					tmpVal = getElementsByClassName('field', elems[i])[0];
+					tmpVal = $(elems[i]).find(".field")[0];
 					tempSongStruct.artist = tmpVal ? tmpVal.getAttribute('title') : ""; 
 					jsonElems.push(tempSongStruct);
 				}
@@ -226,22 +225,6 @@ function startQueryResponse()
 				return;
 			}
 		}
-	}
-}
-function getElementsByClassName(classname, node){
-	try {
-		if (!node) 
-			node = document.getElementsByTagName("body")[0];
-		var a = [];
-		var re = new RegExp('\\b' + classname + '\\b');
-		var els = node.getElementsByTagName("*");
-		for (var i = 0, j = els.length; i < j; i++) 
-			if (re.test(els[i].className)) 
-				a.push(els[i]);
-		return a;
-	} 
-	catch (exception) {
-		return null;
 	}
 }
 

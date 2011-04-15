@@ -49,7 +49,7 @@ function playCurrentSong(e)
 			{
 				if (gSharkRegex.test(tabs[i].url) == true)
 				{
-					chrome.tabs.sendRequest(tabs[i].id, { action: 'playSong', songId: e.target.offsetParent.getAttribute('id') }, function(response) {
+					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.PLAYSONG_REQ, songId: e.target.offsetParent.getAttribute('id') }, function(response) {
 						getNowPlayingFromGS();
 					});
 				}
@@ -123,7 +123,7 @@ function getControlState()
 				if (gSharkRegex.test(tabs[i].url) == true)
 				{
 					chrome.tabs.sendRequest(tabs[i].id, {
-						action: 'getControlState' }, function(response){
+						action: GSDefines.GET_CONTROL_STATE_REQ }, function(response){
 						
 						var fakeElemShuffle = document.createElement('div');
 						fakeElemShuffle.style.display = 'none';
@@ -181,7 +181,7 @@ function getNowPlayingFromGS()
 			{
 				if (gSharkRegex.test(tabs[i].url) == true)
 				{
-					chrome.tabs.sendRequest(tabs[i].id, { action: 'getQueue' }, function(response)
+					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.GETQUEUE_REQ }, function(response)
 					{
 						var queueList = response.queue;
 						
