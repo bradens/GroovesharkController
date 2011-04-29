@@ -29,7 +29,7 @@ var setupContextMenus = function()
 	}
 };
 
-var gSharkRegex = new RegExp("^http://listen.grooveshark.com");
+var gSharkRegex = new RegExp("^http://grooveshark.com");
 			
 var play = function(tab)
 {
