@@ -13,7 +13,7 @@
 	},
 	"content_scripts": [{
 		"all_frames": true,
-		"matches": ["http://listen.grooveshark.com/*", "https://listen.grooveshark.com/*"],
+		"matches": ["http://grooveshark.com/*", "https://grooveshark.com/*"],
 		"js": ["js/jquery-1.5.1.min.js", "js/sortPlugin.js", "js/defines.js", "contentscript.js"],
 		"run_at": "document_end"
 	}],
@@ -21,7 +21,7 @@
 	"permissions": [
 		"tabs",
 		"contextMenus",
-		"http://listen.grooveshark.com/*", 
-		"https://listen.grooveshark.com/*"
+		"http://grooveshark.com/*", 
+		"https://grooveshark.com/*"
 	]
 }
