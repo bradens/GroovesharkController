@@ -50,15 +50,13 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		});
 	}
 	else if (request.action == GSDefines.PLAYSONG_REQ)
-	{
-		// DEFINING CURRENT PLACE....
-		
+	{	
 		// search the queue for our element
 		var songItem = document.getElementById(request.songId);
 		var songHref = songItem.children[1].children[2];
 		if(document.dispatchEvent) 
 		{ // W3C
-		    var oEvent = document.createEvent( "MouseEvents" );
+		    var oEvent = document.createEvent("MouseEvents");
 		    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, songHref);
 		    songHref.dispatchEvent( oEvent );
 	    }
@@ -66,8 +64,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			isSuccess: true
 		});
 	}
-	else if(request.action == 'startSearch')
+	else if(request.action == GSDefines.STARTSEARCH_REQ)
 	{
+        // DEFINING CURRENT PLACE....
 		// check for search boxes, 1 of two places
 		var inputWrap = document.getElementById('searchBar_input');
 		

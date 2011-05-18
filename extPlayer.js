@@ -47,7 +47,7 @@ function playCurrentSong(e)
 			
 			for (var i = 0; i < tabs.length; i++) 
 			{
-				if (gSharkRegex.test(tabs[i].url) == true)
+				if (gSharkRegex.test(tabs[i].url) === true)
 				{
 					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.PLAYSONG_REQ, songId: e.target.offsetParent.getAttribute('id') }, function(response) {
 						getNowPlayingFromGS();
@@ -120,7 +120,7 @@ function getControlState()
 			for (var i = 0; i < tabs.length; i++) 
 			{
 				console.log("Tab: " + tabs[i].title);
-				if (gSharkRegex.test(tabs[i].url) == true)
+				if (gSharkRegex.test(tabs[i].url) === true)
 				{
 					chrome.tabs.sendRequest(tabs[i].id, {
 						action: GSDefines.GET_CONTROL_STATE_REQ }, function(response){
@@ -264,7 +264,7 @@ function runSearch()
 					var value = document.getElementById('search_input_box').value;
 					console.log("Running search on " + value);
 					
-					chrome.tabs.sendRequest(tabs[i].id, { action: 'startSearch', value: value,  }, function(response)
+					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.STARTSEARCH_REQ, value: value,  }, function(response)
 					{
 						console.log(response.msg);
 					});
@@ -374,7 +374,7 @@ function playSongFromResults(e)
 		chrome.tabs.getAllInWindow(window.id, function(tabs) {
 			for (var i = 0;i < tabs.length;i++)
 			{
-				if (gSharkRegex.test(tabs[i].url) == true)
+				if (gSharkRegex.test(tabs[i].url) === true)
 				{
 					chrome.tabs.sendRequest(tabs[i].id, { 
 						action: 'playSongFromResults', 
@@ -404,7 +404,7 @@ function clearSongs()
 		chrome.tabs.getAllInWindow(window.id, function(tabs) {
 			for (var i = 0;i < tabs.length;i++)
 			{
-				if (gSharkRegex.test(tabs[i].url) == true)
+				if (gSharkRegex.test(tabs[i].url) === true)
 				{
 					chrome.tabs.sendRequest(tabs[i].id, { 
 						action: "clearSongs"

@@ -11,4 +11,5 @@ var GSDefines = {
 	PLAYER_SHUFFLE_CLASS: 'player_shuffle',
 	PLAYER_LOOP_CLASS: 'player_loop',
 	PLAYSONG_REQ: 'playSong',
+    STARTSEARCH_REQ: 'startSearch'
 };
