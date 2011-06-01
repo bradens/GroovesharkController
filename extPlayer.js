@@ -245,7 +245,7 @@ function runSearch()
 
 			for (var i = 0;i < tabs.length;i++)
 			{
-				if (gSharkRegex.test(tabs[i].url) == true)
+				if (gSharkRegex.test(tabs[i].url) === true)
 				{
 					
 					$("#songResultListWrap").dialog({
@@ -264,7 +264,7 @@ function runSearch()
 					var value = document.getElementById('search_input_box').value;
 					console.log("Running search on " + value);
 					
-					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.STARTSEARCH_REQ, value: value,  }, function(response)
+					chrome.tabs.sendRequest(tabs[i].id, { action: GSDefines.STARTSEARCH_REQ, value: value }, function(response)
 					{
 						console.log(response.msg);
 					});
@@ -276,13 +276,16 @@ function runSearch()
 
 function makeSongResponseList(request)
 {
+    if (!request.data || request.data.length === 0)
+        return;
+        
 	var tbl = $('<table></table>');
 	tbl.addClass("songResultsTable");
 	
 	var tempRow = $('<tr></tr>');
 	tempRow.addClass('songResultsRowHeader');
 	
-	tempRow.append($('<td></td>'))
+	tempRow.append($('<td></td>'));
 	
 	var tempName = $('<td></td>');
 	tempName.addClass('songResultsTd');

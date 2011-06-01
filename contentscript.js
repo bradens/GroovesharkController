@@ -68,12 +68,12 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	{
         // DEFINING CURRENT PLACE....
 		// check for search boxes, 1 of two places
-		var inputWrap = document.getElementById('searchBar_input');
+		var inputWrap = document.getElementById(GSDefines.SEARCHBAR_INPUT);
 		
 		// the top Right searchbar is there.
 		if (!inputWrap)
 		{
-			var gs = document.getElementById('grooveshark');
+			var gs = document.getElementById(GSDEFINES.GROOVESHARK_BANNER);
 			if(document.dispatchEvent) 
 			{ 
 			    var oEvent = document.createEvent( "MouseEvents" );
@@ -157,7 +157,7 @@ function startSearchInput(request)
 {
 	_inSearch = true;
 	setTimeout(function() { _inSearch ? sendResponseNotFull = true : sendResponseNotFull = false; }, 5000);
-	var inputWrap = document.getElementById('searchBar_input');
+	var inputWrap = document.getElementById(GSDEFINES.SEARCHBAR_INPUT);
 	var inputBox = null;
 	var inputSubmit = document.getElementById('searchButton');
 	for (var i = 0;i < inputWrap.children.length;i++)
