@@ -1,3 +1,21 @@
+/**
+ * styles.css 
+ * GroovesharkController 
+ * Braden Simpson
+ */
+
+body {
+	overflow-x: hidden;
+	width:535px;
+	height:400px;
+	background-color: #1A2022;
+	font-family: arial, sans-serif;
+	color: #EBEBEB;
+	text-shadow: 0.1em 0.1em 0.05em #333;
+	font-size: 14px;
+}
+
+/* Styles for the main controls */
 .button:hover {
 	color: #CFDCE6;
 	-webkit-box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
@@ -33,51 +51,11 @@
 	cursor: pointer;
 	display:inline;
 }
-.playlistartist {
-	color: #CFDCE6;
-}
-.songCell:hover {
-	color: #EEE;
-	-webkit-box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
-	box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
-}
-.songCell {
-	cursor: pointer;
-	-webkit-border-radius: 3px;
-	border: #999 thin solid;
-	padding: 3px;
-	background-color: #999;
-	width:90px;
-	height:100px;
-}
-.songCellBackgroundImagePlay {
-	margin-left: auto;
-	margin-right: auto;
-	display: block;
-}
-.songCellTextWrap {
-	/*background-image: url('../images/play.png');*/
-	background-repeat: no-repeat;
-	background-width: 100%;
-	background-height: 100%;
-	background-position: center;
-	height:100%;
-}
-.songCellText {
-	background-color: rgba(0,0,0,.4);
-	max-height: 120px;
-	height: 100%;
-	width:100%;
-	text-align: center;
-	/*width:87px;*/
-	overflow: hidden;
-}
+
 .searchBox:focus {
 	-webkit-box-shadow: 0 0 2px 2px rgba(98,122,173, 1);
 }
-.nowPlaying {
-	margin-top:10px;
-}
+
 .searchBox {
 	display: inline-block;
 	margin: 0px 2px 0px 2px;
@@ -157,19 +135,58 @@
 	height:15px;
 	margin-right: 0px;
 }
-body {
-	overflow-x: hidden;
-	width:535px;
-	height:400px;
-	background-color: #1A2022;
-	font-family: arial, sans-serif;
-	color: #EBEBEB;
-	text-shadow: 0.1em 0.1em 0.05em #333;
-	font-size: 14px;
+
+/* Styles for the song queue */
+.playlistartist {
+	color: #CFDCE6;
 }
+.songCell:hover {
+	color: #EEE;
+	-webkit-box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
+	box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
+}
+.songCell {
+	cursor: pointer;
+	-webkit-border-radius: 3px;
+	border: #999 thin solid;
+	padding: 3px;
+	background-color: #999;
+	width:90px;
+	height:100px;
+}
+.songCellBackgroundImagePlay {
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+.songCellTextWrap {
+	background-repeat: no-repeat;
+	background-width: 100%;
+	background-height: 100%;
+	background-position: center;
+	height:100%;
+}
+.songCellText {
+	background-color: rgba(0,0,0,.4);
+	max-height: 120px;
+	height: 100%;
+	width:100%;
+	text-align: center;
+	overflow: hidden;
+}
+.nowPlaying {
+	margin-top:10px;
+}
+
+/* Styles for the search dialog */
 .songResultsRow {
 	cursor: pointer;
 }
+
+.songResultsRow td {
+	border-radius:2px;
+}
+
 .songListWaiting {
 	background-image: url("../images/songResultList.gif");
 }
@@ -178,31 +195,83 @@ body {
 	background-position: center;
 	background-repeat: no-repeat;
 	-webkit-user-select: none;
+	border-radius:5px;
+	box-shadow: 0 0 5px #212121;
+	position:absolute;
+	left:10px;
+	top:10px;
+	padding:5px;
+	width:96%;
+	color:#212121;
+	text-shadow: none;
+	background-color: #FFF;
 	display:none;
 }
-.songResultsRowOdd {
-	background-color: #333;
+.songResultsTable tbody tr:nth-child(odd) {
+	background-color: #EFF2FF;
 }
 .songResultsTable {
 	font-size: 12px;
 }
-.songResultsRow:hover {
-	background-color:#666;
+.songResultsTable th {
+	border-bottom: 2px solid lightBlue;
 }
-.songResultsRowHeader {
-	background-color:#666;
+.songResultsTable tbody tr:hover {
+	background-color:lightblue;
+    color: #369;
 }
+
 .tempAddToPlaylistTd {
-	border: #999 solid 1px;
 	-webkit-border-radius: 2px 2px;
 	min-width: 15px;
 	min-height: 15px;
-	background-image: url("../images/addToNowPlaying.png");
+	background-image: url("../images/plus.png");
 	background-size: 15px;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
 .tempAddToPlaylistTd:hover {
-	border: #FFF solid 1px;
-	-webkit-border-radius: 2px 2px;
+	background-color:lightblue;
+}
+
+.songResultControl {
+	background: #474747;
+	border-radius:3px;
+	height:30px;
+}
+
+.songResultListWrap .searchResultsTitle {
+	border-right: #212121;
+	box-shadow: 5px 0 5px #212121;
+	float:left;
+	display:inline-block;
+	font-weight:bold;
+	color:#CCC;
+	height:69%;
+	padding:5px;
+	text-shadow: 0 2px 3px #212121;
+}
+
+.songResultListWrap .closeBtn {
+	border-right:none;
+	border-left: #212121;
+	box-shadow: -5px 0 5px #212121;
+	float:right;
+	display:inline-block;
+	height:69%;
+	padding:5px;
+	background: url("../images/close.png") center center;
+	background-size: 16px 16px;
+	background-repeat:no-repeat;
+	width:15px;
+	cursor:pointer;
+}
+
+.loading {
+	background: url("../images/songResultList.gif");
+	backgroung-repeat:no-repeat;
+	background-size: 32px 32px;
+	width: 32px;
+	height:32px;
+	margin:20px auto 0 auto;
 }

@@ -13,5 +13,17 @@ var GSDefines = {
 	PLAYSONG_REQ: 'playSong',
     STARTSEARCH_REQ: 'startSearch',
     SEARCHBAR_INPUT: 'searchBar_input',
-    GROOVESHARK_BANNER: 'grooveshark'
+    GROOVESHARK_BANNER: 'grooveshark',
+    UI_WIDGET_CONTENT: 'ui-widget-content',
+    SLICK_ROW: "slick-row",
+    SLICK_CELL: "slick-cell",
+    PLAY: "play",
+    CLEAR_BUTTON: "button#queue_clear_button",
+    SEARCH_BUTTON: "searchButton",
+    PAGE_WRAPPER: "page_wrapper",
+    PAGE: "page",
+    GRID: "grid",
+    TITLE: "title",
+    SONGLINK: "songLink",
+    FIELD: "field"
 };

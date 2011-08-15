@@ -1,6 +1,7 @@
 var _isPageListener = false;
 var sendResponseNotFull = false;
-var _inSearch = false;
+var searchTimer = null;
+
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.action == GSDefines.GETQUEUE_REQ) 
 	{
@@ -55,7 +56,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		var songItem = document.getElementById(request.songId);
 		var songHref = songItem.children[1].children[2];
 		if(document.dispatchEvent) 
-		{ // W3C
+		{
 		    var oEvent = document.createEvent("MouseEvents");
 		    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, songHref);
 		    songHref.dispatchEvent( oEvent );
@@ -66,7 +67,6 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 	else if(request.action == GSDefines.STARTSEARCH_REQ)
 	{
-        // DEFINING CURRENT PLACE....
 		// check for search boxes, 1 of two places
 		var inputWrap = document.getElementById(GSDefines.SEARCHBAR_INPUT);
 		
@@ -91,7 +91,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 	else if(request.action == "playSongFromResults")
 	{
-		var songRow = $("div[row='" + request.songObj.rowNum + "'].ui-widget-content.slick-row");
+		var songRow = $("div[row='" + request.songObj.rowNum + "']." + GSDefines.UI_WIDGET_CONTENT + "." + GSDefines.SLICK_ROW);
 		if (!songRow)
 		{
 			// there was an error
@@ -101,7 +101,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		}
 		else
 		{
-			var domSongRow = songRow.children("div.slick-cell.c0.song")[0];
+			var domSongRow = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song")[0];
 			if(document.dispatchEvent) 
 			{ 
 			    var oEvent = document.createEvent("MouseEvents");
@@ -115,7 +115,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 	else if(request.action == "addToNowPlayingFromResults")
 	{
-		var songRow = $("div[row='" + request.songObj.rowNum + "'].ui-widget-content.slick-row");
+		var songRow = $("div[row='" + request.songObj.rowNum + "']." + GSDefines.UI_WIDGET_CONTENT + "." + GSDefines.SLICK_ROW);
 		if (!songRow) {
 			// there was an error
 			sendResponse({
@@ -123,9 +123,9 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			});
 		}
 		else {
-			var jQSongRowSong = songRow.children("div.slick-cell.c0.song");
+			var jQSongRowSong = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song");
 			var domSongRowSong = jQSongRowSong[0];
-			var domSongRowAdd = jQSongRowSong.children("a.play")[0];
+			var domSongRowAdd = jQSongRowSong.children("a." + GSDefines.PLAY)[0];
 			if(document.dispatchEvent) 
 			{ 
 				var oEvent = document.createEvent("MouseEvents");
@@ -143,7 +143,7 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	}
 	else if(request.action == "clearSongs")
 	{
-		var clearBtn = $("button#queue_clear_button");
+		var clearBtn = $(GSDefines.CLEAR_BUTTON);
 		clearBtn ? clearBtn.click() : "";
 		sendResponse({
 			msg: "doneClear"
@@ -155,11 +155,10 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 
 function startSearchInput(request)
 {
-	_inSearch = true;
-	setTimeout(function() { _inSearch ? sendResponseNotFull = true : sendResponseNotFull = false; }, 5000);
+	searchTimer = setTimeout(sendSearchResults, 5000);
 	var inputWrap = document.getElementById(GSDefines.SEARCHBAR_INPUT);
 	var inputBox = null;
-	var inputSubmit = document.getElementById('searchButton');
+	var inputSubmit = $('#' + GSDefines.SEARCH_BUTTON);
 	for (var i = 0;i < inputWrap.children.length;i++)
 	{
 		if (inputWrap.children[i].getAttribute('type') == "text")
@@ -175,7 +174,7 @@ function startSearchInput(request)
 
 function setupQueryListener(request)
 {
-	var pageWrapper = document.getElementById('page_wrapper');
+	var pageWrapper = document.getElementById(GSDefines.PAGE_WRAPPER);
 	if (pageWrapper) {
 		if (_isPageListener)
 			removeQueryListener();
@@ -186,7 +185,7 @@ function setupQueryListener(request)
 
 function removeQueryListener()
 {
-	var pageWrapper = document.getElementById('page_wrapper');
+	var pageWrapper = document.getElementById(GSDefines.PAGE_WRAPPER);
 	if (pageWrapper) {
 		pageWrapper.removeEventListener('DOMSubtreeModified', startQueryResponse, false);
 	}
@@ -194,36 +193,44 @@ function removeQueryListener()
 
 function startQueryResponse()
 {
-	var page = document.getElementById('page');
+	var page = document.getElementById(GSDefines.PAGE);
 	if (page)
 	{
-		var grid = $("#grid");
+		var grid = $("#" + GSDefines.GRID);
 		if (grid)
 		{
-			var elems = grid.find(".ui-widget-content");
+			var elems = grid.find("." + GSDefines.UI_WIDGET_CONTENT);
 			console.log('Currently ' + elems.length + " in the list.");	
-			if ((elems.length >= 50 && elems[0].getAttribute('title') !== undefined)|| sendResponseNotFull) {
-				removeQueryListener();
-				var jsonElems = [];
-				var tempSongStruct;
-				for (var i = 0;i < 50;i++)
-				{
-					tempSongStruct = {song: null, artist: null, rowNum: i};
-					var tmpVal = $(elems[i]).find(".songLink")[0];
-					tempSongStruct.song = tmpVal ? tmpVal.getAttribute('title') : ""; 
-					tmpVal = $(elems[i]).find(".field")[0];
-					tempSongStruct.artist = tmpVal ? tmpVal.getAttribute('title') : ""; 
-					jsonElems.push(tempSongStruct);
-				}
-				_inSearch = false;
-				sendResponseNotFull = false;
-				chrome.extension.sendRequest({
-					msg: "songsDone",
-					data: jsonElems 
-				});
-				return;
+			if (elems.length >= 50 && elems[0].getAttribute(GSDefines.TITLE) !== undefined) {
+				setTimeout(sendSearchResults, 50);
 			}
 		}
 	}
+}
+
+function sendSearchResults()
+{
+	clearTimeout(searchTimer);
+	var elems = $("#" + GSDefines.GRID + " ." + GSDefines.UI_WIDGET_CONTENT);
+	removeQueryListener();
+	var jsonElems = [];
+	var tempSongStruct;
+	for (var i = 0;i < elems.length;i++)
+	{
+		if (i > 50)
+			break;
+		tempSongStruct = {song: null, artist: null, rowNum: i};
+		var tmpVal = $(elems[i]).find("." + GSDefines.SONGLINK)[0];
+		tempSongStruct.song = tmpVal ? tmpVal.getAttribute(GSDefines.TITLE) : ""; 
+		tmpVal = $(elems[i]).find("." + GSDefines.FIELD)[0];
+		tempSongStruct.artist = tmpVal ? tmpVal.getAttribute(GSDefines.TITLE) : ""; 
+		jsonElems.push(tempSongStruct);
+	}
+	_inSearch = false;
+	sendResponseNotFull = false;
+	chrome.extension.sendRequest({
+		msg: "songsDone",
+		data: jsonElems 
+	});
 }
 

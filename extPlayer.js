@@ -13,7 +13,11 @@ function createNowPlaying()
 
 function startSearchListeners()
 {
-	document.getElementById('search_input_box').addEventListener('onkeyup', searchKeyUp, false);
+	$('#search_input_box').keyup(searchKeyUp);
+	$('.songResultControl .closeBtn').click(function() {
+		$(".songResultListWrap").hide('fast');
+		$(".songResultListWrap .songResultsTable").remove();
+	});
 }
 
 function setNowPlayingEvents()
@@ -238,7 +242,6 @@ function searchKeyUp(e)
 
 function runSearch()
 {
-	
 	chrome.windows.getCurrent(function(window) {
 		chrome.tabs.getAllInWindow(window.id, function(tabs) {
 			console.log("# of tabs: " + tabs.length);
@@ -247,20 +250,8 @@ function runSearch()
 			{
 				if (gSharkRegex.test(tabs[i].url) === true)
 				{
-					
-					$("#songResultListWrap").dialog({
-						dialogClass: "songResultListWrap songListWaiting", 
-						close: function() { 
-							$("#songResultListWrap").empty();
-						},
-						show: "puff",
-						hide: "puff",
-						width: 500,
-						height: 400,
-						position: "top",
-						modal: true
-					});
-					
+					$("#songResultListWrap").show('fast');
+					$("#songResultListWrap .loading").show('fast');
 					var value = document.getElementById('search_input_box').value;
 					console.log("Running search on " + value);
 					
@@ -282,23 +273,26 @@ function makeSongResponseList(request)
 	var tbl = $('<table></table>');
 	tbl.addClass("songResultsTable");
 	
-	var tempRow = $('<tr></tr>');
+	var head = $('<thead></thead>');
+	
+	var tempRow = $('<tr></tr>')
 	tempRow.addClass('songResultsRowHeader');
 	
-	tempRow.append($('<td></td>'));
+	tempRow.append($('<th></th>'));
 	
-	var tempName = $('<td></td>');
+	var tempName = $('<th></th>');
 	tempName.addClass('songResultsTd');
 	tempName.append("Track name");
 	
-	var tempArtist = $('<td></td>');
+	var tempArtist = $('<th></th>');
 	tempArtist.addClass('songResultsTd');
 	tempArtist.append("Artist");
 	
 	tempRow.append(tempName);
 	tempRow.append(tempArtist);
 	
-	tbl.append(tempRow);
+	head.append(tempRow);
+	tbl.append(head);
 	
 	for (var i = 0;i < request.data.length;i++)
 	{
@@ -425,9 +419,11 @@ function clearSongs()
 chrome.extension.onRequest.addListener(function(request) 
 {
 	if (request.msg == "songsDone")
-	{		
-		$("#songResultListWrap").append(makeSongResponseList(request));	
-		$("#songResultListWrap").dialog("option", "dialogClass", "songResultListWrap");
+	{	
+		$("#songResultListWrap .songResultsTable").remove();
+		$("#songResultListWrap").append(makeSongResponseList(request));
+		$("#songResultListWrap .loading").hide('fast');
+		$("#songResultListWrap").show('fast');
 	}
 });
 
