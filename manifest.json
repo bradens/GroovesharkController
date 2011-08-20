@@ -4,7 +4,7 @@
 	"description": "Chrome extension to control grooveshark.",
 	"browser_action": {
 		"default_icon": "images/icon128.png",
-		"popup":"testExt.html"
+		"popup":"Popup.html"
 	},
 	"icons": {
 			"16": "images/icon16.png",
