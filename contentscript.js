@@ -177,21 +177,11 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		        // the top Right searchbar is there.
 		        if (!inputWrap)
 		        {
-			        var songRow = $("div[row='0']." + GSDefines.UI_WIDGET_CONTENT + "." + GSDefines.SLICK_ROW);
-		            var jQSongRowSong = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song");
-		            var domSongRowSong = jQSongRowSong[0];
-		            var domSongRowAdd = jQSongRowSong.children("a." + GSDefines.PLAY)[0];
-		            if(document.dispatchEvent) 
-		            { 
-		            	var oEvent = document.createEvent("MouseEvents");
-		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowSong);
-		                domSongRowSong.dispatchEvent( oEvent );
-		            	
-		                oEvent = document.createEvent("MouseEvents");
-		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowAdd);
-		                domSongRowAdd.dispatchEvent( oEvent );
-		            }
-		            
+		        	var gs = document.getElementById(GSDefines.GROOVESHARK_BANNER);
+					var oEvent = document.createEvent( "MouseEvents" );
+					oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, gs);
+					gs.dispatchEvent( oEvent );
+					setTimeout(function(){continueTweetResponse(request, searchCriteria);},1000);            		            
 		        }
 		        else
 		        	continueTweetResponse(request, searchCriteria);
@@ -247,13 +237,20 @@ function onTweetRequest(request) {
 					}
 					else
 					{
-						var domSongRow = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song")[0];
+						var jQSongRowSong = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song");
+						var domSongRowSong = jQSongRowSong[0];
+						var domSongRowAdd = jQSongRowSong.children("a." + GSDefines.PLAY)[0];
 						if(document.dispatchEvent) 
 						{ 
-						    var oEvent = document.createEvent("MouseEvents");
-						    oEvent.initMouseEvent("dblclick", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRow);
-						    domSongRow.dispatchEvent( oEvent );
-					    }
+							var oEvent = document.createEvent("MouseEvents");
+						    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowSong);
+						    domSongRowSong.dispatchEvent( oEvent );
+							
+						    oEvent = document.createEvent("MouseEvents");
+						    oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowAdd);
+						    domSongRowAdd.dispatchEvent( oEvent );
+						}
+						
 						sendResponse({
 						});	
 					}
