@@ -416,6 +416,31 @@ function clearSongs()
 	});
 }
 
+function startListeningForTweets() {
+	LISTENING_TO_TWEETS = true;
+	chrome.windows.getCurrent(function(window) {
+		chrome.tabs.getAllInWindow(window.id, function(tabs) {
+			for (var i = 0;i < tabs.length;i++)
+			{
+				if (gSharkRegex.test(tabs[i].url) === true)
+				{
+					chrome.tabs.sendRequest(tabs[i].id, { 
+						action: "startListeningToTweets",
+						last: ""
+						},
+						function(response){
+							if (response.last == "")
+								return;
+							else
+								setTimeout(function() { getNowPlayingFromGS(); }, 200);
+						}
+					);
+				}
+			}
+		});
+	});
+}
+
 chrome.extension.onRequest.addListener(function(request) 
 {
 	if (request.msg == "songsDone")

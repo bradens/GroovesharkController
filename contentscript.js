@@ -1,6 +1,7 @@
 var _isPageListener = false;
 var sendResponseNotFull = false;
 var searchTimer = null;
+var TWEET_CURRENT_SONG = null;
 
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 	if (request.action == GSDefines.GETQUEUE_REQ) 
@@ -149,9 +150,114 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 			msg: "doneClear"
 		});
 	}
+	else if(request.action == "startListeningToTweets")
+	{
+		setInterval(function() { 
+			var url='http://search.twitter.com/search.json?q=vicsdj&result_type=recent&count=1'; // make the url
+			$.getJSON(url,function(results){ // get the tweets
+				// incoming tweet from 
+				
+				var tweet = results.results[0];
+				
+				console.log(tweet.from_user);
+				console.log(tweet.text);
+				
+				// Parse song name
+				var searchCriteria = tweet.text.substr(tweet.text.indexOf(" ") + 1);
+				
+				if (searchCriteria == TWEET_CURRENT_SONG)
+				{
+					return;
+				}
+				else
+					TWEET_CURRENT_SONG = searchCriteria;
+				// check for search boxes, 1 of two places
+		        var inputWrap = document.getElementById(GSDefines.SEARCHBAR_INPUT);
+		        
+		        // the top Right searchbar is there.
+		        if (!inputWrap)
+		        {
+		            var gs = document.getElementById(GSDefines.GROOVESHARK_BANNER);
+		            if(document.dispatchEvent) 
+		            { 
+		                var oEvent = document.createEvent( "MouseEvents" );
+		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, gs);
+		                gs.dispatchEvent( oEvent );
+		                setTimeout(function(){continueTweetResponse(request, searchCriteria);},1000);            
+		            }   
+		        }
+		        else
+		        	continueTweetResponse(request, searchCriteria);
+				
+			});
+		}, 10000);
+		
+	}
 	else
 		sendResponse({});
 });
+
+function continueTweetResponse(request, searchCriteria) {
+	// TODO write one method for this
+	var inputWrap = document.getElementById(GSDefines.SEARCHBAR_INPUT);
+	var inputBox = null;
+	var inputSubmit = $('#' + GSDefines.SEARCH_BUTTON);
+	for (var i = 0;i < inputWrap.children.length;i++)
+	{
+		if (inputWrap.children[i].getAttribute('type') == "text")
+		{
+			inputBox = inputWrap.children[i];
+		}
+	}
+	inputBox.focus();
+	inputBox.value = searchCriteria;
+	inputSubmit.click();
+	
+	var pageWrapper = document.getElementById(GSDefines.PAGE_WRAPPER);
+	if (pageWrapper) {
+		pageWrapper.addEventListener('DOMSubtreeModified', onTweetRequest, false);
+	}
+}
+
+function onTweetRequest(request) {
+	var page = document.getElementById(GSDefines.PAGE);
+	if (page)
+	{
+		var grid = $("#" + GSDefines.GRID);
+		if (grid)
+		{
+			var elems = grid.find("." + GSDefines.UI_WIDGET_CONTENT);
+			console.log('Currently ' + elems.length + " in the list.");	
+			if (elems.length > 0 && elems[0].getAttribute(GSDefines.TITLE) !== undefined) {
+				setTimeout(function() {
+					var songRow = $("div[row='0']." + GSDefines.UI_WIDGET_CONTENT + "." + GSDefines.SLICK_ROW);
+					if (!songRow)
+					{
+						// there was an error
+						sendResponse({
+							msg: "failed"
+						});
+					}
+					else
+					{
+						var domSongRow = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song")[0];
+						if(document.dispatchEvent) 
+						{ 
+						    var oEvent = document.createEvent("MouseEvents");
+						    oEvent.initMouseEvent("dblclick", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRow);
+						    domSongRow.dispatchEvent( oEvent );
+					    }
+						sendResponse({
+						});	
+					}
+				}, 50);
+				var pageWrapper = document.getElementById(GSDefines.PAGE_WRAPPER);
+				pageWrapper.removeEventListener('DOMSubtreeModified', onTweetRequest, false);
+			}
+		}
+	}
+	
+}
 
 function startSearchInput(request)
 {
