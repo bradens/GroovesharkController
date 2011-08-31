@@ -177,14 +177,21 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
 		        // the top Right searchbar is there.
 		        if (!inputWrap)
 		        {
-		            var gs = document.getElementById(GSDefines.GROOVESHARK_BANNER);
+			        var songRow = $("div[row='0']." + GSDefines.UI_WIDGET_CONTENT + "." + GSDefines.SLICK_ROW);
+		            var jQSongRowSong = songRow.children("div." + GSDefines.SLICK_CELL + ".c0.song");
+		            var domSongRowSong = jQSongRowSong[0];
+		            var domSongRowAdd = jQSongRowSong.children("a." + GSDefines.PLAY)[0];
 		            if(document.dispatchEvent) 
 		            { 
-		                var oEvent = document.createEvent( "MouseEvents" );
-		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, gs);
-		                gs.dispatchEvent( oEvent );
-		                setTimeout(function(){continueTweetResponse(request, searchCriteria);},1000);            
-		            }   
+		            	var oEvent = document.createEvent("MouseEvents");
+		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowSong);
+		                domSongRowSong.dispatchEvent( oEvent );
+		            	
+		                oEvent = document.createEvent("MouseEvents");
+		                oEvent.initMouseEvent("click", true, true,window, 1, 1, 1, 1, 1, false, false, false, false, 0, domSongRowAdd);
+		                domSongRowAdd.dispatchEvent( oEvent );
+		            }
+		            
 		        }
 		        else
 		        	continueTweetResponse(request, searchCriteria);
