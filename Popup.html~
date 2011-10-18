@@ -31,7 +31,7 @@
 			<div class="nowPlaying" id='nowPlayingTblWrapper'>
 				<table class="tblSongs" id='nowPlayingTbl'>
 				</table>
-			</div>
+			</div>y
 			<div class="songResultListWrap" id="songResultListWrap" title="Song search results.">
 				<div class="songResultControl">
 					<div class="searchResultsTitle">
