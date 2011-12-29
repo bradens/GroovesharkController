@@ -3,7 +3,11 @@
 	<title>Grooveshark Controller</title>
 	<head>
 		<script type='text/javascript' src="js/jquery-162.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="css/styles.css" />
+		<style type="text/css">
+			@import url("css/reset.css");
+			@import url("css/css3buttons.css");
+			@import url("css/styles.css");
+		</style>
 		<script type="text/javascript" src="js/defines.js"></script>
 		<script type="text/javascript" src="controllerCore.js"></script>
 		<script type="text/javascript" src="Popup.js"></script>
@@ -11,43 +15,37 @@
 	<body onload="createNowPlaying();">
 		<div class="controlWrapper">
 			<div class="buttonsWrapper">
-				<div class="playButton button" onclick="go('play');"><span>Play/Pause</span></div>
-				<div class="backButton button" onclick="go('back');"><span>Back</span></div>
-				<div class="nextButton button" onclick="go('next');"><span>Next</span></div>
-				<div class="imgBtnsWrap"><div id='shuffleButton' class='shuffleOff imgBtns' onclick="toggleShuffle();"></div></div>
-				<div class="imgBtnsWrap"><div id='repeatButton' class='repeatOff imgBtns' onclick="cycleRepeat();"></div></div>
-			</div>
-			<div id='searchBoxWrap'>
+				<a class="playButton button" onclick="go('play');"><span>Play/Pause</span></a>
+				<a class="backButton button" onclick="go('back');"><span>Back</span></a>
+				<a class="nextButton button" onclick="go('next');"><span>Next</span></a>
+				<a class="imgBtnsWrap button shuffleBtnWrap"><div id='shuffleButton' class='shuffleOff imgBtns button' onclick="toggleShuffle();"></div></a>
+				<a class="imgBtnsWrap button repeatBtnWrap"><div id='repeatButton' class='repeatOff imgBtns button' onclick="cycleRepeat();"></div></a>
 				<input class="searchBox" onfocus="onFocusSearchBox(document.getElementById('search_input_box'));" onkeyup="searchKeyUp(event)" id='search_input_box' placeholder="Type to Search GrooveShark...">
-				</input> 
-			</div>
-			<div id='searchBtn' onclick="runSearch();" class="button searchButton">
-				<span>Go</span>
-			</div>
-			<div id='trashBtn' onclick="clearSongs();" class="button trashButton">
-			</div>
+				</input>
+				<a id="searchBtn" onclick="runSearch();" class="button searchButton">Go</a>
+				<a id='trashBtn' onclick="clearSongs();" class="imgBtnsWrap button"><div class='trashButton imgBtns'></div></a>
+				<!--
+					<div id='tweetBtn' onclick="startListeningForTweets();" class="button searchButton"><span>Listen!</span>
 			
-			<!--
-				<div id='tweetBtn' onclick="startListeningForTweets();" class="button searchButton"><span>Listen!</span>
-			
-				</div>
-			-->
-			
-			<div class="nowPlaying" id='nowPlayingTblWrapper'>
-				<table class="tblSongs" id='nowPlayingTbl'>
-				</table>
-			</div>
-			<div class="songResultListWrap" id="songResultListWrap" title="Song search results.">
-				<div class="songResultControl">
-					<div class="searchResultsTitle">
-						Search Results
 					</div>
-					<div class="closeBtn">
-					</div>
+				-->
+			</div>
+			
+		</div>
+		<div class="songResultListWrap" id="songResultListWrap" title="Song search results.">
+			<div class="songResultControl">
+				<div class="searchResultsTitle">
+					Search Results
 				</div>
-				<div class="loading">
+				<div class="closeBtn">
 				</div>
 			</div>
+			<div class="loading">
+			</div>
+		</div>
+		<div class="nowPlaying" id='nowPlayingTblWrapper'>
+			<table class="tblSongs" id='nowPlayingTbl'>
+			</table>
 		</div>
 	</body>
 </html>

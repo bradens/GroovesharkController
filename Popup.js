@@ -81,13 +81,16 @@ function removeNowPlaying(tbl)
 function toggleShuffle()
 {
 	var shuffleBtn = document.getElementById('shuffleButton');
+	var shuffleBtnWrap = $(".shuffleBtnWrap");
 	if (hasClass(shuffleButton, 'shuffleOn')) {
 		shuffleBtn.className = shuffleBtn.className.replace(/\bshuffleOn\b/, '');
 		shuffleBtn.className += ' shuffleOff';
+		shuffleBtnWrap.removeClass("imgBtnsActive");
 	}
 	else if (hasClass(shuffleButton, 'shuffleOff')) {
 			shuffleBtn.className = shuffleBtn.className.replace(/\bshuffleOff\b/, '');
-			shuffleBtn.className += ' shuffleOn';	
+			shuffleBtn.className += ' shuffleOn';
+			shuffleBtnWrap.addClass("imgBtnsActive");
 	}
 	go('shuffle');
 }
@@ -95,20 +98,24 @@ function toggleShuffle()
 function cycleRepeat()
 {
 	var repeatBtn = document.getElementById('repeatButton');
+	var repeatBtnWrap = $(".repeatBtnWrap");
 	if(repeatBtn.className.indexOf('repeatOff') !== -1)
 	{
 		repeatBtn.className = repeatBtn.className.replace(/\brepeatOff\b/, '');
 		repeatBtn.className += ' repeatAll';
+		repeatBtnWrap.addClass("imgBtnsActive");
 	}
 	else if(repeatBtn.className.indexOf('repeatAll') !== -1)
 	{
 		repeatBtn.className = repeatBtn.className.replace(/\brepeatAll\b/, '');
 		repeatBtn.className += ' repeatOne';
+		repeatBtnWrap.addClass("imgBtnsActive");
 	}
 	else if(repeatBtn.className.indexOf('repeatOne') !== -1)
 	{
 		repeatBtn.className = repeatBtn.className.replace(/\brepeatOne\b/, '');
 		repeatBtn.className += ' repeatOff';
+		repeatBtnWrap.removeClass("imgBtnsActive");
 	}
 	go('repeat');
 }
@@ -143,14 +150,16 @@ function getControlState()
 						if (hasClass(fakeElemShuffle, 'active'))
 						{
 							shuffleButton.className = shuffleButton.className.replace(/\bshuffleOff\b/, '');
-							shuffleButton.className += ' shuffleOn';	
+							shuffleButton.className += ' shuffleOn';
+							$(".shuffleBtnWrap").addClass("imgBtnsActive");
 						}
 						else
 						{
 							shuffleButton.className = shuffleButton.className.replace(/\bshuffleOn\b/, '');
 							shuffleButton.className += ' shuffleOff';
+							$(".shuffleBtnWrap").removeClass("imgBtnsActive");
 						}
-						
+						$(".repeatBtnWrap").addClass("imgBtnsActive");
 						repeatButton.className = repeatButton.className.replace(/\brepeatAll\b/, '');
 						repeatButton.className = repeatButton.className.replace(/\brepeatOff\b/, '');
 						repeatButton.className = repeatButton.className.replace(/\brepeatOne\b/, '');
@@ -160,8 +169,10 @@ function getControlState()
 						else if (hasClass(fakeElemRepeat, 'one'))
 							repeatButton.className += ' repeatOne';
 						else if (hasClass(fakeElemRepeat, 'none'))
+						{
 							repeatButton.className += ' repeatOff';
-						
+							$(".repeatBtnWrap").removeClass("imgBtnsActive");
+						}
 						delete fakeElemShuffle;
 						delete fakeElemRepeat;
 					});
@@ -192,7 +203,7 @@ function getNowPlayingFromGS()
 						var nowPlayingTbl = document.getElementById('nowPlayingTbl')
 						for (var i = 0;i < queueList.length;i++)
 						{
-							if ((i % 5) == 0)
+							if ((i % 6) == 0)
 							{
 								var nowPlayingRow = document.createElement('tr');
 								nowPlayingRow.setAttribute('class', 'songRow');

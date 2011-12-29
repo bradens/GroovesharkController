@@ -6,109 +6,85 @@
 
 body {
 	overflow-x: hidden;
-	width:535px;
+	width:530px;
 	height:400px;
-	background-color: #1A2022;
-	font-family: arial, sans-serif;
-	color: #EBEBEB;
+	background: repeat url("../images/bg_stripes.png");
+	font-family: helvetica, sans-serif;
+	color: #666;
+	font-weight:lighter;
 	text-shadow: 0.1em 0.1em 0.05em #333;
-	font-size: 14px;
+	font-size: 12px;
 }
 
-/* Styles for the main controls */
-.button:hover {
-	color: #CFDCE6;
-	-webkit-box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
-	box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
+table {
+	border-spacing: 3px;
 }
-.buttonsWrapper {
-	display: inline;
-	padding: 3px;
-	width: auto;
-	height: auto;
-}
-.button {
-	margin: 0px 2px 2px 2px;
+
+.playButton, .nextButton, .backButton, .trashButton, .searchButton { 
 	float:left;
-	text-align: center;
-	background-image: -webkit-gradient(
-	    linear,
-	    left bottom,
-	    left top,
-	    color-stop(1, rgb(112,112,112)),
-	    color-stop(0.51, rgb(52,51,61))
-	);
-	background-image: -moz-linear-gradient(
-	    center bottom,
-	    rgb(112,112,112) 100%,
-	    rgb(52,51,61) 51%
-	);
-	padding: 4px;
-	width:auto;
-	height:auto;
-	-webkit-border-radius: 3px;
-	border: #999 thin solid;
-	cursor: pointer;
-	display:inline;
 }
 
-.searchBox:focus {
-	-webkit-box-shadow: 0 0 2px 2px rgba(98,122,173, 1);
-}
-
-.searchBox {
-	display: inline-block;
-	margin: 0px 2px 0px 2px;
+input.searchBox {
+	font-weight: inherit;
+	font-style: inherit;
+	font-family: inherit;
+	margin: 2px
 	white-space: nowrap;
 	overflow:hidden;
 	float:left;
 	width: 230px;
-	-webkit-box-shadow: 0 0 1.5px 1.5px rgba(98,122,173, 1);
-	background-color: #1A2022;
+	-webkit-box-shadow: 0px 0px 3px 2px rgba(0,0,150,.15);
 	padding: 4px;
 	-webkit-border-radius: 3px;
 	border: #999 thin solid;
-	color: #EBEBEB;
-	text-shadow: 0.1em 0.1em 0.08em #333;
-	font-size: 14px;
+	font-size: 12px;
+	background-color: rgb(230, 230, 255);
+	-webkit-transition: background-color .25s ease-in;
+	line-height: 1.4;
 }
+
+input.searchBox:focus {
+	/* background-color: rgba(255,255,255, .5); */
+	background-color: rgb(245,245,255);
+}
+
+.button {
+	margin: 2px;
+}
+
 .imgBtnsWrap:hover {
 	color: #CFDCE6;
 	-webkit-box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
 	box-shadow: 0 0 2px 2px rgba(255,255,255, .8);
 }
 .imgBtnsWrap {
-	margin: 0px 2px 2px 2px;
+	padding:0px !important;
 	float:left;
 	text-align: center;
-	background-image: -webkit-gradient(
-	    linear,
-	    left bottom,
-	    left top,
-	    color-stop(1, rgb(112,112,112)),
-	    color-stop(0.51, rgb(52,51,61))
-	);
-	background-image: -moz-linear-gradient(
-	    center bottom,
-	    rgb(112,112,112) 100%,
-	    rgb(52,51,61) 51%
-	);
 	width:auto;
 	height:auto;
 	-webkit-border-radius: 3px;
 	border: #999 thin solid;
 	cursor: pointer;
-	display:inline;
+	display:inline-block;
 }
 .imgBtns {
 	padding: 0px;
-	height: 24px;
-	width: 24px;
-	margin-top: 
+	height: 18px;
+	width: 21px;
 	display:inline-block;
 	background-repeat: no-repeat;
-	background-size: 24px;
+	background-size: 21px;
 	background-position: center;
+}
+
+a.imgBtnsActive {
+	color: white;
+	border-color: #388AD4;
+	text-decoration: none;
+	text-shadow: -1px -1px 0 rgba(0, 0, 0, 0.3);
+	background-position: 0 -80px;
+	background-color: #2D7DC5;
 }
 .shuffleOff{
 	background-image: url('../images/shuffleOff.png');
@@ -126,13 +102,12 @@ body {
 	background-image: url('../images/repeatAll.png');
 }
 .trashButton {
-	background-image: url('../images/trashIcon.png');
-	background-repeat: no-repeat;
-	background-position:left;
-	background-color:#545454;
+	background-image: url('../images/trash32.png') !important;
+	background-repeat: no-repeat !important;
+	background-size: 21px !important;
 	display: inline-block;
-	width: 10px;
-	height:15px;
+	width: 21px;
+	height:23px;
 	margin-right: 0px;
 }
 
@@ -140,19 +115,39 @@ body {
 .playlistartist {
 	color: #CFDCE6;
 }
+
 .songCell:hover {
-	color: #EEE;
-	-webkit-box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
-	box-shadow: 0 0 5px 5px rgba(255,255,255, .8);
+	box-shadow: 0px 0px 2px 2px rgba(100,100,255,.8);
+	background-color: rgba(0,0,0,.5);
 }
+
+.songCell:hover .songCellText {
+	background-color: rgba(0,0,0,.5);
+}
+
 .songCell {
+	-webkit-transition: all .15s ease-in;
+	background-image: linear-gradient(bottom, rgb(160,167,229) 17%, rgb(192,201,255) 59%);
+	background-image: -o-linear-gradient(bottom, rgb(160,167,229) 17%, rgb(192,201,255) 59%);
+	background-image: -moz-linear-gradient(bottom, rgb(160,167,229) 17%, rgb(192,201,255) 59%);
+	background-image: -webkit-linear-gradient(bottom, rgb(160,167,229) 17%, rgb(192,201,255) 59%);
+	background-image: -ms-linear-gradient(bottom, rgb(160,167,229) 17%, rgb(192,201,255) 59%);
+
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.17, rgb(160,167,229)),
+		color-stop(0.59, rgb(192,201,255))
+	);
+	color: white;
 	cursor: pointer;
 	-webkit-border-radius: 3px;
-	border: #999 thin solid;
+	border: #CCC thin solid;
 	padding: 3px;
-	background-color: #999;
-	width:90px;
-	height:100px;
+	width:73px;
+	height:73px;
+	margin:0 2px 0 2px;
 }
 .songCellBackgroundImagePlay {
 	margin-left: auto;
@@ -164,11 +159,16 @@ body {
 	background-width: 100%;
 	background-height: 100%;
 	background-position: center;
-	height:100%;
+	height:70px;
+	width:70px;
+	box-shadow:0px 0px 1px 1px #333;
+	border:thin solid black;
 }
+
 .songCellText {
-	background-color: rgba(0,0,0,.4);
-	max-height: 120px;
+	-webkit-transiton: all .15s ease-in;
+	background-color: rgba(0,0,0,.1);
+	max-height: 73px;
 	height: 100%;
 	width:100%;
 	text-align: center;
